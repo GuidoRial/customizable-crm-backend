@@ -9,7 +9,7 @@ export interface IEntityBlueprint {
     canBeReferenced: boolean;
     map: IOption;
   };
-  fields: Record<string, IEntityField>;
+  fields: IEntityField[];
 }
 
 const contactEntityBlueprint: IEntityBlueprint = {
@@ -23,40 +23,40 @@ const contactEntityBlueprint: IEntityBlueprint = {
       value: '_id', // Field Name to be used as value
     },
   },
-  fields: {
-    fullName: {
+  fields: [
+    {
       label: 'Full Name',
       key: 'fullName',
       type: 'text',
       required: true,
-
-      entity: '',
+      blueprint: '',
+      _id: '',
     },
-    email: {
+    {
       label: 'Email',
       key: 'email',
       type: 'text',
       required: true,
-
-      entity: '',
+      blueprint: '',
+      _id: '',
     },
-    phone: {
+    {
       label: 'Phone',
       key: 'phone',
       type: 'text',
       required: true,
-
-      entity: '',
+      blueprint: '',
+      _id: '',
     },
-    address: {
+    {
       label: 'Address',
       key: 'address',
       type: 'text',
       required: true,
-
-      entity: '',
+      blueprint: '',
+      _id: '',
     },
-    city: {
+    {
       label: 'City',
       key: 'city',
       type: 'select',
@@ -66,10 +66,10 @@ const contactEntityBlueprint: IEntityBlueprint = {
         { value: 'Rosario', label: 'Rosario' },
       ],
       required: true,
-
-      entity: '',
+      blueprint: '',
+      _id: '',
     },
-    country: {
+    {
       label: 'Country',
       key: 'country',
       type: 'select',
@@ -79,58 +79,58 @@ const contactEntityBlueprint: IEntityBlueprint = {
         { value: 'Uruguay', label: 'Uruguay' },
       ],
       required: true,
-
-      entity: '',
+      blueprint: '',
+      _id: '',
     },
-    zipCode: {
+    {
       label: 'Zip Code',
       key: 'zipCode',
       type: 'text',
       required: true,
-
-      entity: '',
+      blueprint: '',
+      _id: '',
     },
-    isMainContact: {
+    {
       label: 'Is Main Contact',
       key: 'isMainContact',
       type: 'radio',
       required: true,
-
-      entity: '',
+      blueprint: '',
+      _id: '',
     },
-    isMainAddress: {
+    {
       label: 'Is Main Address',
       key: 'isMainAddress',
       type: 'radio',
       required: true,
-
-      entity: '',
+      blueprint: '',
+      _id: '',
     },
-    description: {
+    {
       label: 'Description',
       key: 'description',
       type: 'textarea',
       required: true,
-
-      entity: '',
+      blueprint: '',
+      _id: '',
     },
-    dateOfBirth: {
+    {
       label: 'Date of Birth',
       key: 'dateOfBirth',
       type: 'date',
       required: true,
-
-      entity: '',
+      blueprint: '',
+      _id: '',
     },
-    age: {
+    {
       label: 'Age',
       key: 'age',
       type: 'number',
       required: true,
-
-      entity: '',
+      blueprint: '',
+      _id: '',
     },
-    maritalStatus: {
+    {
       label: 'Marital Status',
       key: 'maritalStatus',
       type: 'select',
@@ -140,10 +140,10 @@ const contactEntityBlueprint: IEntityBlueprint = {
         { value: 'divorced', label: 'Divorced' },
       ],
       required: true,
-
-      entity: '',
+      blueprint: '',
+      _id: '',
     },
-    company: {
+    {
       label: 'Company',
       key: 'company',
       type: 'reference',
@@ -154,131 +154,8 @@ const contactEntityBlueprint: IEntityBlueprint = {
         { value: '5f9f7b3d9f9a4b1b3c9f9a4e', label: 'Company 3' },
       ],
       required: true,
-
-      entity: '',
+      blueprint: '',
+      _id: '',
     },
-  },
-};
-
-const companyEntityBlueprint: IEntityBlueprint = {
-  name: 'Company',
-  description: 'A company is a potential customer.',
-  user: '5f9f7b3d9f9a4b1b3c9f9a4c',
-  metadata: {
-    canBeReferenced: true,
-    map: {
-      label: 'name', // Field Name to be used as label
-      value: '_id', // Field Name to be used as value
-    },
-  },
-  fields: {
-    name: {
-      label: 'Name',
-      key: 'name',
-      type: 'text',
-      required: true,
-      entity: '',
-    },
-    email: {
-      label: 'Email',
-      key: 'email',
-      type: 'text',
-      required: true,
-      entity: '',
-    },
-    phone: {
-      label: 'Phone',
-      key: 'phone',
-      type: 'text',
-      required: true,
-      entity: '',
-    },
-    address: {
-      label: 'Address',
-      key: 'address',
-      type: 'text',
-      required: true,
-      entity: '',
-    },
-    city: {
-      label: 'City',
-      key: 'city',
-      type: 'select',
-      options: [
-        { value: 'Buenos Aires', label: 'Buenos Aires' },
-        { value: 'Cordoba', label: 'Cordoba' },
-        { value: 'Rosario', label: 'Rosario' },
-      ],
-      required: true,
-
-      entity: '',
-    },
-    country: {
-      label: 'Country',
-      key: 'country',
-      type: 'select',
-      options: [
-        { value: 'Argentina', label: 'Argentina' },
-        { value: 'Chile', label: 'Chile' },
-        { value: 'Uruguay', label: 'Uruguay' },
-      ],
-      required: true,
-
-      entity: '',
-    },
-    zipCode: {
-      label: 'Zip Code',
-      key: 'zipCode',
-      type: 'text',
-      required: true,
-      entity: '',
-    },
-    description: {
-      label: 'Description',
-      key: 'description',
-      type: 'textarea',
-      required: true,
-      entity: '',
-    },
-    foundationDate: {
-      label: 'Foundation Date',
-      key: 'foundationDate',
-      type: 'date',
-      required: true,
-      entity: '',
-    },
-    numberOfEmployees: {
-      label: 'Number of Employees',
-      key: 'numberOfEmployees',
-      type: 'number',
-      required: true,
-      entity: '',
-    },
-    annualRevenue: {
-      label: 'Annual Revenue',
-      key: 'annualRevenue',
-      type: 'number',
-      required: true,
-      entity: '',
-    },
-    isMainAddress: {
-      label: 'Is Main Address',
-      key: 'isMainAddress',
-      type: 'radio',
-      required: true,
-      entity: '',
-    },
-    mainContact: {
-      label: 'Main Contact',
-      key: 'mainContact',
-      type: 'reference',
-      options: [
-        { value: '5f9f7b3d9f9a4b1b3c9f9a4c', label: 'Contact 1' },
-        { value: '5f9f7b3d9f9a4b1b3c9f9a4d', label: 'Contact 2' },
-        { value: '5f9f7b3d9f9a4b1b3c9f9a4e', label: 'Contact 3' },
-      ],
-      required: true,
-      entity: '',
-    },
-  },
+  ],
 };

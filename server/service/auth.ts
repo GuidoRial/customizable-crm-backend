@@ -25,7 +25,7 @@ export default class AuthService {
     );
   }
   async signIn(email: string, password: string) {
-    const user = await this.userService.findOne({ email });
+    const user = await this.userService.read.one.by({ email });
     const dbPassword = user.password;
 
     const validPassword = await argon2.verify(dbPassword, password);
@@ -36,7 +36,7 @@ export default class AuthService {
       return {
         user: {
           _id: user._id,
-          email: user.email,
+          email: user.email_address,
         },
         session,
       };
@@ -55,7 +55,7 @@ export default class AuthService {
       throw new Error("Error hashing account");
     }
 
-    const user = await this.userService.create({
+    const user = await this.userService.create.one({
       ...userDTO,
       password: hashedPassword,
     });

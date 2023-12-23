@@ -6,70 +6,161 @@ import { Service } from 'typedi';
 @Service()
 class BaseController<C extends CRUDBase<T, I>, T extends Model<I & Document>, I extends Document> {
   constructor(public service: C) {}
-  async getAll(req: Request, res: Response) {
-    try {
-      const result = await this.service.getAll();
-      return res.status(200).json(result);
-    } catch (e) {
-      console.log('Error : ', e.message, e.stack);
-      return res.status(500).json({ stack: e.stack, message: e.message });
-    }
-  }
 
-  async getById(req: Request, res: Response) {
-    try {
-      const id = req.params.id;
-      const result = await this.service.findById(id);
-      return res.status(200).json(result);
-    } catch (e) {
-      console.log('Error : ', e.message, e.stack);
-      return res.status(500).json({ stack: e.stack, message: e.message });
-    }
-  }
+  public create = {
+    one: async (req: Request, res: Response) => {
+      try {
+        const object = await this.service.create.one(req.body);
+        res.status(200).json(object);
+      } catch (error) {
+        res.status(400).json(error);
+      }
+    },
+    many: async (req: Request, res: Response) => {
+      try {
+        const objects = await this.service.create.many(req.body);
+        res.status(200).json(objects);
+      } catch (error) {
+        res.status(400).json(error);
+      }
+    },
+  };
 
-  async update(req: Request, res: Response) {
-    try {
-      const id = req.params.id;
-      const dto = req.body;
-      const result = await this.service.updateById(id, dto);
-      return res.status(200).json(result);
-    } catch (e) {
-      console.log('Error : ', e.message, e.stack);
-      return res.status(500).json({ stack: e.stack, message: e.message });
-    }
-  }
+  public read = {
+    all: async (req: Request, res: Response) => {
+      try {
+        const objects = await this.service.read.all();
+        res.status(200).json(objects);
+      } catch (error) {
+        res.status(400).json(error);
+      }
+    },
+    one: {
+      by: async (req: Request, res: Response) => {
+        try {
+          const object = await this.service.read.one.by(req.body);
+          res.status(200).json(object);
+        } catch (error) {
+          res.status(400).json(error);
+        }
+      },
+      byId: async (req: Request, res: Response) => {
+        try {
+          const object = await this.service.read.one.byId(req.params.id);
+          res.status(200).json(object);
+        } catch (error) {
+          res.status(400).json(error);
+        }
+      },
+    },
+    many: {
+      by: async (req: Request, res: Response) => {
+        try {
+          const objects = await this.service.read.many.by(req.body);
+          res.status(200).json(objects);
+        } catch (error) {
+          res.status(400).json(error);
+        }
+      },
+      byId: async (req: Request, res: Response) => {
+        try {
+          const objects = await this.service.read.many.byId(req.body);
+          res.status(200).json(objects);
+        } catch (error) {
+          res.status(400).json(error);
+        }
+      },
+    },
+  };
 
-  async create(req: Request, res: Response) {
-    try {
-      const dto = req.body;
-      const result = await this.service.create(dto);
-      return res.status(200).json(result);
-    } catch (e) {
-      console.log('Error : ', e.message, e.stack);
-      return res.status(500).json({ stack: e.stack, message: e.message });
+  public update = {
+    one: {
+      by: async (req: Request, res: Response) => {
+        const q = JSON.parse(req.params.q);
+        const dto = req.body;
+        try {
+          const object = await this.service.update.one.by(q, dto);
+          res.status(200).json(object);
+        } catch (error) {
+          res.status(400).json(error);
+        }
+      },
+      byId: async (req: Request, res: Response) => {
+        const { id } = req.params;
+        const dto = req.body;
+        try {
+          const object = await this.service.update.one.byId(id, dto);
+          res.status(200).json(object);
+        } catch (error) {
+          res.status(400).json(error);
+        }
+      },
+    },
+    many: {
+      by: async (req: Request, res: Response) => {
+        const q = JSON.parse(req.params.q);
+        const dto = req.body;
+        try {
+          const object = await this.service.update.many.by(q, dto);
+          res.status(200).json(object);
+        } catch (error) {
+          res.status(400).json(error);
+        }
+      },
+      byId: async (req: Request, res: Response) => {
+        const ids = JSON.parse(req.params.ids);
+        const dto = req.body;
+        try {
+          const object = await this.service.update.many.byId(ids, dto);
+          res.status(200).json(object);
+        } catch (error) {
+          res.status(400).json(error);
+        }
+      },
     }
-  }
+  };
 
-  async removeById(req: Request, res: Response) {
-    try {
-      const id = req.params.id;
-      const result = await this.service.removeById(id);
-      return res.status(200).json(result);
-    } catch (e) {
-      console.log('Error : ', e.message, e.stack);
-      return res.status(500).json({ stack: e.stack, message: e.message });
-    }
-  }
-
-  async removeMany(req: Request, res: Response) {
-    try {
-      const ids = JSON.parse(req.query.ids as string) || [];
-      const result = await this.service.removeMany(ids);
-      return res.status(200).json(result);
-    } catch (e) {
-      console.log('Error : ', e.message, e.stack);
-      return res.status(500).json({ stack: e.stack, message: e.message });
-    }
+  public remove = {
+    one: {
+      by: async (req: Request, res: Response) => {
+        const q = JSON.parse(req.params.q);
+        try {
+          const object = await this.service.remove.one.by(q);
+          res.status(200).json(object);
+        } catch (error) {
+          res.status(400).json(error);
+        }
+      },
+      byId: async (req: Request, res: Response) => {
+        const { id } = req.params;
+        try {
+          const object = await this.service.remove.one.byId(id);
+          res.status(200).json(object);
+        } catch (error) {
+          res.status(400).json(error);
+        }
+      },
+    },
+    many: {
+      by: async (req: Request, res: Response) => {
+        const q = JSON.parse(req.params.q);
+        try {
+          const object = await this.service.remove.many.by(q);
+          res.status(200).json(object);
+        } catch (error) {
+          res.status(400).json(error);
+        }
+      },
+      byId: async (req: Request, res: Response) => {
+       const ids = JSON.parse(req.params.ids)
+        try {
+          const object = await this.service.remove.many.byId(ids);
+          res.status(200).json(object);
+        } catch (error) {
+          res.status(400).json(error);
+        }
+      },
+    },
   }
 }
 

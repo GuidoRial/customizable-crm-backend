@@ -3,7 +3,7 @@ import { IEntityBlueprint } from './blueprint';
 /**
  * Represents an entity in the CRM system.
  */
-export interface IEntity extends Record<keyof IEntityBlueprint['fields'], unknown> {
+export interface IEntity extends Record<string, unknown> {
   blueprint: string;
 }
 

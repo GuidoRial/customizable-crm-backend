@@ -1,12 +1,16 @@
-import { Service } from 'typedi';
-import { IUser } from '../../interfaces/IUser';
-import UserModel from '../../models/User';
-import BaseController from './base';
-import UserService from "../../service/users"
-import { Request, Response } from 'express';
+import { Service } from "typedi";
+import { IUser } from "../../interfaces/IUser";
+import UserModel from "../../models/User";
+import BaseController from "./base";
+import UserService from "../../service/users";
+import { Request, Response } from "express";
 
 @Service()
-export default class UserController extends BaseController<UserService, typeof UserModel, IUser> {
+export default class UserController extends BaseController<
+  UserService,
+  typeof UserModel,
+  IUser
+> {
   constructor(service: UserService) {
     super(service);
   }

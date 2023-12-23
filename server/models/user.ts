@@ -1,5 +1,5 @@
-import mongoose from 'mongoose';
-import { IUser } from '../interfaces/IUser';
+import mongoose from "mongoose";
+import { IUser } from "../interfaces/IUser";
 
 const UserSchema = new mongoose.Schema(
   {
@@ -24,7 +24,11 @@ const UserSchema = new mongoose.Schema(
       trim: true,
     },
   },
-  { timestamps: true }
+  { timestamps: true },
 );
 
-export default mongoose.model<IUser & mongoose.Document>('User', UserSchema, 'users');
+export default mongoose.model<IUser & mongoose.Document>(
+  "User",
+  UserSchema,
+  "users",
+);
