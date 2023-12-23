@@ -1,8 +1,9 @@
-import jwt from "jsonwebtoken";
-import argon2 from "argon2";
-import { Service } from "typedi";
-import config from "../config";
-import UserService from "./users";
+import jwt from 'jsonwebtoken';
+import argon2 from 'argon2';
+import { Service } from 'typedi';
+import config from '../config';
+import UserService from './users';
+import { ISignUpUserDTO } from '../interfaces/IAuth';
 
 @Service()
 export default class AuthService {
@@ -16,12 +17,11 @@ export default class AuthService {
     return jwt.sign(
       {
         _id: user._id,
-        role: user.role,
-        firstName: user.firstName,
-        lastName: user.lastName,
+        first_name: user.first_name,
+        last_name: user.last_name,
         exp: exp.getTime() / 1000,
       },
-      config.jwtSecret,
+      config.jwtSecret
     );
   }
   async signIn(email: string, password: string) {
@@ -42,14 +42,17 @@ export default class AuthService {
       };
     }
 
-    throw new Error("Invalid Credentials");
+    throw new Error('Invalid Credentials');
   }
 
-  async signUp(userDTO: any) {
+  async signUp(userDTO: ISignUpUserDTO) {
+    if (userDTO.password !== userDTO.confirm_password)
+      throw new Error('Password does not match');
+
     const hashedPassword = await argon2.hash(userDTO.password);
 
     if (!hashedPassword) {
-      throw new Error("Error-hashing-account");
+      throw new Error('Error hashing account');
     }
 
     const user = await this.userService.create({
@@ -58,7 +61,7 @@ export default class AuthService {
     });
 
     const session = await this.generateSession(user);
-
+    debugger
     return {
       user: {
         email: user.email,
