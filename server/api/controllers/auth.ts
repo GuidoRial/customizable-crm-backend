@@ -1,6 +1,6 @@
-import { Request, Response } from 'express';
-import { Container } from 'typedi';
-import AuthService from '../../service/auth';
+import { Request, Response } from "express";
+import { Container } from "typedi";
+import AuthService from "../../service/auth";
 
 export default {
   async signIn(req: Request, res: Response) {
@@ -11,7 +11,7 @@ export default {
       const authResponse = await authService.signIn(email, password);
       return res.status(200).json(authResponse);
     } catch (e) {
-      console.log('Error : ', e.message, e.stack);
+      console.log("Error : ", e.message, e.stack);
       return res.status(500).json({ message: e.message, stack: e.stack });
     }
   },
@@ -23,7 +23,7 @@ export default {
       const authResponse = await authService.signUp(user);
       return res.status(200).json(authResponse);
     } catch (e) {
-      console.log('Error : ', e.message, e.stack);
+      console.log("Error : ", e.message, e.stack);
       return res.status(500).json({ message: e.message, stack: e.stack });
     }
   },

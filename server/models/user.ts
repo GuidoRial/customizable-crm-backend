@@ -1,4 +1,3 @@
-import transactionSchema from "./transaction";
 import mongoose from "mongoose";
 
 import { IUser } from "../interfaces/IUser";
