@@ -17,6 +17,6 @@
     "outDir": "dist",
     "noImplicitAny": false
   },
-  "include": ["server/**/*"],
+  "include": ["server/**/*", "utils.ts"],
   "exclude": ["node_modules", "tests", "dist"]
 }

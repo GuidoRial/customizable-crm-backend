@@ -1,11 +1,13 @@
 import { Request, Response } from 'express';
-import CRUDBase from '../../service/CRUDBase';
+import CRUDBase from '../../services/CRUDBase';
 import { Model, Document } from 'mongoose';
 import { Service } from 'typedi';
+import { EventDispatcher, EventDispatcherInterface } from '../../decorators/eventDispatcher';
 
 @Service()
 class BaseController<C extends CRUDBase<T, I>, T extends Model<I & Document>, I extends Document> {
-  constructor(public service: C) {}
+  @EventDispatcher() public eventDispatcher: EventDispatcherInterface;
+  constructor(public service: C, ) {}
 
   public create = {
     one: async (req: Request, res: Response) => {
@@ -117,7 +119,7 @@ class BaseController<C extends CRUDBase<T, I>, T extends Model<I & Document>, I 
           res.status(400).json(error);
         }
       },
-    }
+    },
   };
 
   public remove = {
@@ -152,7 +154,7 @@ class BaseController<C extends CRUDBase<T, I>, T extends Model<I & Document>, I 
         }
       },
       byId: async (req: Request, res: Response) => {
-       const ids = JSON.parse(req.params.ids)
+        const ids = JSON.parse(req.params.ids);
         try {
           const object = await this.service.remove.many.byId(ids);
           res.status(200).json(object);
@@ -161,7 +163,7 @@ class BaseController<C extends CRUDBase<T, I>, T extends Model<I & Document>, I 
         }
       },
     },
-  }
+  };
 }
 
 export default BaseController;

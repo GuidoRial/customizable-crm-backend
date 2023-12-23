@@ -1,6 +1,6 @@
 import { Request, Response } from "express";
 import { Container } from "typedi";
-import AuthService from "../../service/auth";
+import AuthService from "../../services/auth";
 
 export default {
   async signIn(req: Request, res: Response) {

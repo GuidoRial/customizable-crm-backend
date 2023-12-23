@@ -2,7 +2,7 @@ import { Service } from "typedi";
 import { IUser } from "../../interfaces/IUser";
 import UserModel from "../../models/User";
 import BaseController from "./base";
-import UserService from "../../service/users";
+import UserService from "../../services/users";
 import { Request, Response } from "express";
 
 @Service()
