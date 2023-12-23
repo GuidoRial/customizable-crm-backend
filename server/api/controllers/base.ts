@@ -2,11 +2,9 @@ import { Request, Response } from 'express';
 import CRUDBase from '../../services/CRUDBase';
 import { Model, Document } from 'mongoose';
 import { Service } from 'typedi';
-import { EventDispatcher, EventDispatcherInterface } from '../../decorators/eventDispatcher';
 
 @Service()
 class BaseController<C extends CRUDBase<T, I>, T extends Model<I & Document>, I extends Document> {
-  @EventDispatcher() public eventDispatcher: EventDispatcherInterface;
   constructor(public service: C, ) {}
 
   public create = {
