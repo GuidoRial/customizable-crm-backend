@@ -1,5 +1,5 @@
 import mongoose from "mongoose";
-import { IEntityField } from "../interfaces/entity";
+import { IEntityField } from "../interfaces/fields";
 
 const EntityFieldSchema = new mongoose.Schema(
   {

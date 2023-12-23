@@ -1,48 +1,30 @@
-import mongoose from "mongoose";
-
-import { IUser } from "../interfaces/IUser";
+import mongoose from 'mongoose';
+import { IUser } from '../interfaces/IUser';
 
 const UserSchema = new mongoose.Schema(
   {
-    email: {
+    first_name: {
       type: String,
-      required: true,
-      unique: true,
+      trim: true,
     },
-    password: {
+    email_address: {
       type: String,
-      required: true,
-      unique: true,
+      trim: true,
+    },
+    last_name: {
+      type: String,
+      trim: true,
     },
     username: {
       type: String,
-      required: true,
-      unique: true,
+      trim: true,
     },
-    currencies: {
-      type: Array,
-      default: ["USD", "USDT", "ARS"],
-    },
-    wallets: {
-      type: [
-        {
-          type: mongoose.Schema.Types.ObjectId,
-          ref: "Wallet",
-        },
-      ],
-      default: [],
-    },
-    transactions: {
-      type: [mongoose.Schema.Types.ObjectId],
-      ref: "Transaction", // Use the Transaction model reference
-      default: [],
+    password: {
+      type: String,
+      trim: true,
     },
   },
-  { timestamps: true, strict: true },
+  { timestamps: true }
 );
 
-export default mongoose.model<IUser & mongoose.Document>(
-  "User",
-  UserSchema,
-  "users",
-);
+export default mongoose.model<IUser & mongoose.Document>('User', UserSchema, 'users');

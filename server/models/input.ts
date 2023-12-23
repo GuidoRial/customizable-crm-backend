@@ -1,5 +1,5 @@
 import mongoose from "mongoose";
-import { IInput } from "../interfaces/entity";
+import { IEntityField } from "../interfaces/fields";
 
 const ValueSchema = new mongoose.Schema(
   {
@@ -51,7 +51,7 @@ const ValueSchema = new mongoose.Schema(
   { timestamps: true, strict: true },
 );
 
-export default mongoose.model<IInput & mongoose.Document>(
+export default mongoose.model<IEntityField & mongoose.Document>(
   "Input",
   ValueSchema,
   "inputs",

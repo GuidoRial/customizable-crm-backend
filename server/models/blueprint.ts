@@ -1,6 +1,6 @@
 import mongoose from "mongoose";
-import { IEntityBlueprint } from "../interfaces/entity";
 import EntityFieldSchema from "./fields";
+import { IEntityBlueprint } from "../interfaces/blueprint";
 const BlueprintSchema = new mongoose.Schema(
   {
     name: {

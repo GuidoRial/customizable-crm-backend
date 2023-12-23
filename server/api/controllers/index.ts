@@ -1,9 +1,9 @@
 import auth from "./auth";
-import user from "./user";
+import users from "./users";
 
 const controllers = {
   auth,
-  user,
+  users,
 };
 
 export default controllers;

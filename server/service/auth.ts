@@ -61,10 +61,9 @@ export default class AuthService {
     });
 
     const session = await this.generateSession(user);
-    debugger;
     return {
       user: {
-        email: user.email,
+        email: user.email_address,
       },
       session,
     };

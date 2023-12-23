@@ -1,7 +1,7 @@
 import { Container } from "typedi";
 import LoggerInstance from "./logger";
 import agendaFactory from "./agenda";
-import user from "../models/user";
+import user from "../models/User";
 import NodeCache from "node-cache";
 
 export default ({ database }: { database: any }) => {
