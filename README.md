@@ -14,9 +14,9 @@
 ## Flow to create an entity creator
 
 1. User creates blueprint AND fields for it
-1.a. User adds name, description and metadata for a blueprint, it gets created and goes to the next step
-1.b. User creates all the fields (one document per each) which are bound to the blueprint_id
-2. 
+   1.a. User adds name, description and metadata for a blueprint, it gets created and goes to the next step
+   1.b. User creates all the fields (one document per each) which are bound to the blueprint_id
+2.
 
 The main idea is that the user will tell me what their entity looks like so that they can then create them, so they need to create an Entity Blueprint first, I need to know
 

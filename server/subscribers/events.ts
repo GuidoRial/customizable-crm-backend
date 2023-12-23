@@ -1,39 +1,39 @@
 export default {
-  test: {
+  entity: {
     create: {
-      one: '',
-      many: '',
+      one: "",
+      many: "",
     },
     read: {
-      distinctValues: '',
-      all: '',
+      distinctValues: "",
+      all: "",
       one: {
-        by: '',
-        byId: '',
+        by: "",
+        byId: "",
       },
       many: {
-        by: '',
-        byId: '',
+        by: "",
+        byId: "",
       },
     },
     update: {
       one: {
-        by: '',
-        byId: '',
+        by: "",
+        byId: "",
       },
       many: {
-        by: '',
-        byId: '',
+        by: "",
+        byId: "",
       },
     },
-    remove: {
+    delete: {
       one: {
-        by: '',
-        byId: '',
+        by: "",
+        byId: "",
       },
       many: {
-        by: '',
-        byId: '',
+        by: "",
+        byId: "",
       },
     },
   },

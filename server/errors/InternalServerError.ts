@@ -1,4 +1,4 @@
-import CustomError from './CustomError';
+import CustomError from "./CustomError";
 
 class InternalServerError extends CustomError {
   statusCode: number;

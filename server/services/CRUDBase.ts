@@ -45,7 +45,7 @@ class CRUDBase<T extends mongoose.Model<I>, I> {
       return this.model.find().lean();
     },
     one: {
-      by: async (q: FilterQuery<I> = {}) => {
+      by: async (q: Record<string, any> = {}) => {
         this.emitEvent('read.one.by');
         return this.model.findOne(q);
       },
@@ -55,7 +55,7 @@ class CRUDBase<T extends mongoose.Model<I>, I> {
       },
     },
     many: {
-      by: async (q: FilterQuery<I> = {}) => {
+      by: async (q: Record<string, any> = {}) => {
         this.emitEvent('read.many.by');
         return this.model.find(q).lean();
       },
@@ -82,31 +82,27 @@ class CRUDBase<T extends mongoose.Model<I>, I> {
         this.emitEvent('update.many.by');
         return this.model.updateMany(q, { $set: { ...update } });
       },
-      byId: async (ids: string[], update: Partial<I>) => {
-        this.emitEvent('update.many.byId');
-        return this.model.updateMany({ _id: { $in: ids } }, { $set: { ...update } });
-      },
     },
   };
 
-  public remove = {
+  public delete = {
     one: {
       by: async (q: FilterQuery<I> = {}) => {
-        this.emitEvent('remove.one.by');
+        this.emitEvent('delete.one.by');
         return this.model.deleteOne(q);
       },
       byId: async (id: string) => {
-        this.emitEvent('remove.one.byId');
+        this.emitEvent('delete.one.byId');
         return this.model.deleteOne({ _id: id });
       },
     },
     many: {
       by: async (q: FilterQuery<I> = {}) => {
-        this.emitEvent('remove.many.by');
+        this.emitEvent('delete.many.by');
         return this.model.deleteMany(q);
       },
       byId: async (ids: string[]) => {
-        this.emitEvent('remove.many.byId');
+        this.emitEvent('delete.many.byId');
         return this.model.deleteMany({ _id: { $in: ids } });
       },
     },

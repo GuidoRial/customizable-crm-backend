@@ -1,5 +1,5 @@
-import mongoose from 'mongoose';
-import { IEntityField } from '../interfaces/fields';
+import mongoose from "mongoose";
+import { IEntityField } from "../interfaces/fields";
 
 const EntityFieldSchema = new mongoose.Schema(
   {
@@ -15,7 +15,17 @@ const EntityFieldSchema = new mongoose.Schema(
     },
     type: {
       type: String,
-      enum: ['text', 'select', 'number', 'select', 'checkbox', 'radio', 'textarea', 'date', 'reference'],
+      enum: [
+        "text",
+        "select",
+        "number",
+        "select",
+        "checkbox",
+        "radio",
+        "textarea",
+        "date",
+        "reference",
+      ],
       required: true,
     },
     required: {
@@ -24,8 +34,8 @@ const EntityFieldSchema = new mongoose.Schema(
     },
     blueprint: {
       type: mongoose.Schema.Types.ObjectId,
-      ref: 'Blueprint',
-      required: true,
+      ref: "Blueprint",
+      // required: true,
     },
     options: {
       type: [
@@ -36,7 +46,11 @@ const EntityFieldSchema = new mongoose.Schema(
       ],
     },
   },
-  { timestamps: true, strict: true }
+  { timestamps: true, strict: true },
 );
 
-export default mongoose.model<IEntityField & mongoose.Document>('EntityField', EntityFieldSchema, 'entityFields');
+export default mongoose.model<IEntityField & mongoose.Document>(
+  "EntityField",
+  EntityFieldSchema,
+  "entityFields",
+);

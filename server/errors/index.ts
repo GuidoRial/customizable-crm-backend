@@ -1,4 +1,4 @@
-import ForbiddenError from './ForbiddenError';
-import InternalServerError from './InternalServerError';
+import ForbiddenError from "./ForbiddenError";
+import InternalServerError from "./InternalServerError";
 
 export { ForbiddenError, InternalServerError };
