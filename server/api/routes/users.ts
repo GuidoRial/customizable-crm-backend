@@ -1,14 +1,13 @@
-import { Router } from "express";
-import controllers from "../controllers";
-import Container from "typedi";
+import { Router } from 'express';
+import controllers from '../controllers';
+import Container from 'typedi';
 const route = Router();
 
 export default (app: Router) => {
-  app.use("/users", route);
+  app.use('/users', route);
 
   const controller = Container.get(controllers.users);
 
-  route.get("/:id", controller.read.one.byId.bind(controller));
-
-  route.put("/:id", controller.update.one.byId.bind(controller));
+  route.get('/:id', controller.read.bind(controller));
+  route.put('/:id', controller.update.bind(controller));
 };

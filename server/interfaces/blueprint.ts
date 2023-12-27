@@ -1,7 +1,8 @@
-import { IEntityField } from "./fields";
+import { Document } from "mongoose";
+import { IField } from "./fields";
 import { IOption } from "./shared";
 
-export interface IEntityBlueprint {
+export interface IBlueprint extends Document {
   name: string;
   description: string;
   user: string;
@@ -9,10 +10,10 @@ export interface IEntityBlueprint {
     canBeReferenced: boolean;
     map: IOption;
   };
-  fields: IEntityField[];
+  fields: IField[];
 }
 
-// const contactEntityBlueprint: IEntityBlueprint = {
+// const contactEntityBlueprint: IBlueprint = {
 //   name: "Contact",
 //   description: "A contact is a person or company that is a potential customer.",
 //   user: "5f9f7b3d9f9a4b1b3c9f9a4c",

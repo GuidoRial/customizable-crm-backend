@@ -1,6 +1,6 @@
 import mongoose from "mongoose";
 import EntityFieldSchema from "./fields";
-import { IEntityBlueprint } from "../interfaces/blueprint";
+import { IBlueprint } from "../interfaces/blueprint";
 const BlueprintSchema = new mongoose.Schema(
   {
     name: {
@@ -37,7 +37,7 @@ const BlueprintSchema = new mongoose.Schema(
   { timestamps: true, strict: true },
 );
 
-export default mongoose.model<IEntityBlueprint & mongoose.Document>(
+export default mongoose.model<IBlueprint & mongoose.Document>(
   "Blueprint",
   BlueprintSchema,
   "blueprints",

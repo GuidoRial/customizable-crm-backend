@@ -14,7 +14,7 @@ export type FieldTypes =
   | "radio"
   | "reference";
 
-export interface IEntityField extends Document {
+export interface IField extends Document {
   _id: string;
   label: string;
   key: string;
@@ -24,7 +24,7 @@ export interface IEntityField extends Document {
   options?: IOption[];
 }
 
-// const fields: IEntityField = {
+// const fields: IField = {
 //   label: "Name",
 //   key: "name",
 //   type: "text",
@@ -33,7 +33,7 @@ export interface IEntityField extends Document {
 //   _id: ""
 // };
 
-// const optionFields: IEntityField = {
+// const optionFields: IField = {
 //   label: "Name",
 //   key: "name",
 //   type: "select",

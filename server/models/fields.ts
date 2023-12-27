@@ -1,5 +1,5 @@
 import mongoose from "mongoose";
-import { IEntityField } from "../interfaces/fields";
+import { IField } from "../interfaces/fields";
 
 const EntityFieldSchema = new mongoose.Schema(
   {
@@ -35,7 +35,7 @@ const EntityFieldSchema = new mongoose.Schema(
     blueprint: {
       type: mongoose.Schema.Types.ObjectId,
       ref: "Blueprint",
-      // required: true,
+      required: true,
     },
     options: {
       type: [
@@ -49,7 +49,7 @@ const EntityFieldSchema = new mongoose.Schema(
   { timestamps: true, strict: true },
 );
 
-export default mongoose.model<IEntityField & mongoose.Document>(
+export default mongoose.model<IField & mongoose.Document>(
   "EntityField",
   EntityFieldSchema,
   "entityFields",
