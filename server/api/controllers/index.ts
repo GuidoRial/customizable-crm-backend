@@ -1,8 +1,8 @@
-import auth from './auth';
-import users from './users';
-import fields from './fields';
-import blueprints from './blueprints';
-import entities from './entities';
+import auth from "./auth";
+import users from "./users";
+import fields from "./fields";
+import blueprints from "./blueprints";
+import entities from "./entities";
 const controllers = {
   auth,
   users,

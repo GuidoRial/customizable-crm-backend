@@ -87,8 +87,11 @@ class CRUDBase<T extends mongoose.Model<I>, I> {
       },
       byId: async (ids: string[], update: Partial<I>) => {
         this.emitEvent("update.many.byId");
-        return this.model.updateMany({ _id: { $in: ids } }, { $set: { ...update } });
-      }
+        return this.model.updateMany(
+          { _id: { $in: ids } },
+          { $set: { ...update } },
+        );
+      },
     },
   };
 
