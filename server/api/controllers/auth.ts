@@ -6,13 +6,13 @@ export default {
   async signIn(req: Request, res: Response) {
     try {
       const authService = Container.get(AuthService);
-      const email = req.body.email;
-      const password = req.body.password;
-      const authResponse = await authService.signIn(email, password);
+      const authResponse = await authService.signIn(req.body);
       return res.status(200).json(authResponse);
     } catch (e) {
       console.log("Error : ", e.message, e.stack);
-      return res.status(500).json({ message: e.message, stack: e.stack });
+      return res
+        .status(e.statusCode || 500)
+        .json({ message: e.message, stack: e.stack });
     }
   },
 
@@ -24,7 +24,9 @@ export default {
       return res.status(200).json(authResponse);
     } catch (e) {
       console.log("Error : ", e.message, e.stack);
-      return res.status(500).json({ message: e.message, stack: e.stack });
+      return res
+        .status(e.statusCode || 500)
+        .json({ message: e.message, stack: e.stack });
     }
   },
 };

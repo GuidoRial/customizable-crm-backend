@@ -3,15 +3,15 @@ import { IUser } from "../interfaces/IUser";
 
 const UserSchema = new mongoose.Schema(
   {
-    first_name: {
+    firstName: {
       type: String,
       trim: true,
     },
-    email_address: {
+    lastName: {
       type: String,
       trim: true,
     },
-    last_name: {
+    email: {
       type: String,
       trim: true,
     },

@@ -3,7 +3,9 @@ import argon2 from "argon2";
 import { Service } from "typedi";
 import config from "../config";
 import UserService from "./users";
-import { ISignUpUserDTO } from "../interfaces/IAuth";
+import { IUser } from "../interfaces/IUser";
+import { NotFoundError } from "../errors";
+import BadRequestError from "../errors/BadRequestError";
 
 @Service()
 export default class AuthService {
@@ -24,8 +26,13 @@ export default class AuthService {
       config.jwtSecret,
     );
   }
-  async signIn(email: string, password: string) {
-    const user = await this.userService.read.one.by({ email });
+  async signIn({ email, username: password }: Partial<IUser>) {
+    const byEmail = await this.userService.read.one.by({ email });
+    const byUsername = await this.userService.read.one.by({ username: email });
+    if (!byEmail && !byUsername) {
+      throw new NotFoundError("User not found");
+    }
+    const user = byEmail || byUsername;
     const dbPassword = user.password;
 
     const validPassword = await argon2.verify(dbPassword, password);
@@ -36,19 +43,16 @@ export default class AuthService {
       return {
         user: {
           _id: user._id,
-          email: user.email_address,
+          email: user.email,
         },
         session,
       };
     }
 
-    throw new Error("Invalid Credentials");
+    throw new BadRequestError("Invalid Credentials");
   }
 
-  async signUp(userDTO: ISignUpUserDTO) {
-    if (userDTO.password !== userDTO.confirm_password)
-      throw new Error("Password does not match");
-
+  async signUp(userDTO: Partial<IUser>) {
     const hashedPassword = await argon2.hash(userDTO.password);
 
     if (!hashedPassword) {
@@ -61,9 +65,10 @@ export default class AuthService {
     });
 
     const session = await this.generateSession(user);
+
     return {
       user: {
-        email: user.email_address,
+        email: user.email,
       },
       session,
     };

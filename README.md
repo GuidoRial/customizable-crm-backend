@@ -13,10 +13,63 @@
 
 ## Flow to create an entity creator
 
-1. User creates blueprint AND fields for it
-   1.a. User adds name, description and metadata for a blueprint, it gets created and goes to the next step
-   1.b. User creates all the fields (one document per each) which are bound to the blueprint_id
-2.
+### Field and Blueprint creation
+
+1. User defines name for blueprint, it gets created (blueprint POST)
+
+```js
+const body = {
+  name: "Contact",
+  user: "loggedInUserId",
+};
+```
+
+2. User then adds fields and values, creates them all and binds them to a blueprint (fields POST && blueprint PUT to achieve double binding)
+
+```js
+const fields = [
+  {
+    label: "First Name",
+    key: "firstName",
+    type: "text",
+    required: true,
+    blueprint: "createdBlueprintId",
+  },
+  {
+    label: "Last Name",
+    key: "lastName",
+    type: "text",
+    required: true,
+    blueprint: "createdBlueprintId",
+  },
+  {
+    label: "Middle Name",
+    key: "middleName",
+    type: "text",
+    required: false,
+    blueprint: "createdBlueprintId",
+  },
+];
+
+const ids = await createFields(fields);
+const data = await updateBlueprint({
+  _id: "createdBlueprintId",
+  fields: ids,
+});
+// POST to create fields, return all of those ids
+// Make PUT request to update blueprint
+// Or... I could gather all that info and make only ONE request
+```
+
+### Entity creation
+
+1. User tells us which blueprint to use
+
+```js
+
+```
+
+2. We use that blueprint to validate user input, maybe using Schemy?
 
 The main idea is that the user will tell me what their entity looks like so that they can then create them, so they need to create an Entity Blueprint first, I need to know
 

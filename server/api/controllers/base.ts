@@ -21,8 +21,8 @@ class BaseController<
       const response = await this.service.create[target](body);
 
       res.status(200).json(response);
-    } catch (error) {
-      res.status(500).json(error);
+    } catch (e) {
+      res.status(e.statusCode || 500).json(e);
     }
   };
 
@@ -40,8 +40,8 @@ class BaseController<
 
       const response = await promise;
       return res.status(200).json(response);
-    } catch (error) {
-      res.status(500).json(error);
+    } catch (e) {
+      res.status(e.statusCode || 500).json(e);
     }
   };
 
@@ -57,8 +57,8 @@ class BaseController<
       const response = await promise;
 
       res.status(200).json(response);
-    } catch (error) {
-      res.status(500).json(error);
+    } catch (e) {
+      res.status(e.statusCode || 500).json(e);
     }
   };
 
@@ -73,8 +73,8 @@ class BaseController<
       const response = await promise;
 
       res.status(200).json(response);
-    } catch (error) {
-      res.status(500).json(error);
+    } catch (e) {
+      res.status(e.statusCode || 500).json(e);
     }
   };
 }

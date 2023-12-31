@@ -22,12 +22,10 @@ const BlueprintSchema = new mongoose.Schema(
       map: {
         label: {
           type: String,
-          required: true,
           trim: true,
         },
         value: {
           type: String,
-          required: true,
           trim: true,
         },
       },
