@@ -32,7 +32,14 @@ const BlueprintSchema = new mongoose.Schema(
         },
       },
     },
-    fields: [EntityFieldSchema],
+    fields: {
+      type: [
+        {
+          type: mongoose.Schema.Types.ObjectId,
+          ref: "EntityField",
+        },
+      ],
+    },
   },
   { timestamps: true, strict: true },
 );

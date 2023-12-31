@@ -8,7 +8,14 @@ const EntitySchema = new mongoose.Schema(
       ref: "Blueprint",
       required: true,
     },
-    fields: EntityFieldSchema,
+    fields: {
+      type: [
+        {
+          type: mongoose.Schema.Types.ObjectId,
+          ref: "EntityField",
+        },
+      ],
+    },
   },
   { timestamps: true, strict: true },
 );
