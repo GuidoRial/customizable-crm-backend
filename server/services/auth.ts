@@ -1,11 +1,11 @@
-import jwt from "jsonwebtoken";
-import argon2 from "argon2";
-import { Service } from "typedi";
-import config from "../config";
-import UserService from "./users";
-import { IUser } from "../interfaces/IUser";
-import { NotFoundError } from "../errors";
-import BadRequestError from "../errors/BadRequestError";
+import jwt from 'jsonwebtoken';
+import argon2 from 'argon2';
+import { Service } from 'typedi';
+import config from '../config';
+import UserService from './users';
+import { IUser } from '../interfaces/IUser';
+import { NotFoundError } from '../errors';
+import BadRequestError from '../errors/BadRequestError';
 
 @Service()
 export default class AuthService {
@@ -23,16 +23,16 @@ export default class AuthService {
         last_name: user.last_name,
         exp: exp.getTime() / 1000,
       },
-      config.jwtSecret,
+      config.jwtSecret
     );
   }
-  async signIn({ email, username: password }: Partial<IUser>) {
-    const byEmail = await this.userService.read.one.by({ email });
-    const byUsername = await this.userService.read.one.by({ username: email });
-    if (!byEmail && !byUsername) {
-      throw new NotFoundError("User not found");
+  async signIn({ email, username, password }: Partial<IUser>) {
+    const user = await this.userService.read.one.by({ $or: [{ email }, { username }] });
+
+    if (!user) {
+      throw new NotFoundError('User not found');
     }
-    const user = byEmail || byUsername;
+
     const dbPassword = user.password;
 
     const validPassword = await argon2.verify(dbPassword, password);
@@ -49,14 +49,14 @@ export default class AuthService {
       };
     }
 
-    throw new BadRequestError("Invalid Credentials");
+    throw new BadRequestError('Invalid Credentials');
   }
 
   async signUp(userDTO: Partial<IUser>) {
     const hashedPassword = await argon2.hash(userDTO.password);
 
     if (!hashedPassword) {
-      throw new Error("Error hashing account");
+      throw new Error('Error hashing account');
     }
 
     const user = await this.userService.create.one({
