@@ -47,6 +47,9 @@ class CRUDBase<T extends mongoose.Model<I>, I> {
       this.emitEvent("read.all");
       return this.model.find().lean();
     },
+    field: async (field: string) => {
+      return this.model.find().select(field).lean();
+    },
     one: {
       by: async (q: Record<string, any> = {}) => {
         this.emitEvent("read.one.by");
@@ -58,9 +61,11 @@ class CRUDBase<T extends mongoose.Model<I>, I> {
       },
     },
     many: {
-      by: async (q: Record<string, any> = {}) => {
+      by: async (q: Record<string, any> = {}, populate: Populate[] = []) => {
         this.emitEvent("read.many.by");
-        return this.model.find(q).lean();
+        const items = await this.model.find(q).lean();
+        if (!populate.length) return items;
+        return this.model.populate(items, populate);
       },
       byId: async (ids: string[]) => {
         this.emitEvent("read.many.byId");

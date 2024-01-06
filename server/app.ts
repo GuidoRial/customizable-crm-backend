@@ -8,7 +8,6 @@ import loaders from "./loaders";
 
 import Logger from "./loaders/logger";
 async function startServer() {
-  console.log("here");
   const app = express();
   await loaders({ expressApp: app });
 

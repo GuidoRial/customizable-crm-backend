@@ -13,6 +13,17 @@ class BaseController<
 > {
   constructor(public service: C) {}
 
+  public fields = async function (req: Request, res: Response): Promise<void> {
+    const { field } = req.query;
+    try {
+      const response = await this.service.read.field(field as string);
+
+      res.status(200).json(response);
+    } catch (e) {
+      res.status(e.statusCode || 500).json(e);
+    }
+  };
+
   public create = async function (req: Request, res: Response): Promise<void> {
     const { body } = req;
     try {
@@ -33,10 +44,11 @@ class BaseController<
     try {
       const id = req.params.id;
       const query = booleanParser(req.query);
+      const populate = JSON.parse(req.query.populate as string);
 
       const promise = id
         ? this.service.read.one.byId(id)
-        : this.service.read.many.by(query);
+        : this.service.read.many.by(query, populate);
 
       const response = await promise;
       return res.status(200).json(response);
