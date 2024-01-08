@@ -19,7 +19,6 @@ const EntityFieldSchema = new mongoose.Schema(
         "text",
         "select",
         "number",
-        "select",
         "checkbox",
         "radio",
         "textarea",

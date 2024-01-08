@@ -20,14 +20,7 @@ const BlueprintSchema = new mongoose.Schema(
         type: Boolean,
       },
       map: {
-        label: {
-          type: String,
-          trim: true,
-        },
-        value: {
-          type: String,
-          trim: true,
-        },
+        type: String,
       },
     },
     fields: {
