@@ -49,7 +49,7 @@ export default class BlueprintsService extends CRUDBase<
         update,
       );
 
-      return updatedBlueprint;
+      return createdBlueprint
     },
     many: async (objects: Partial<IBlueprint>[]) => {
       this.emitEvent("create.many");
