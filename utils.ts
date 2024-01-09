@@ -40,3 +40,8 @@ export const CRUDGenerator = (route: Router, controller: any) => {
 
   route.delete("/", controller.delete.bind(controller));
 };
+export const convert_to_snake_case = (str: string) =>
+  str
+    .match(/[A-Z]{2,}(?=[A-Z][a-z]+[0-9]*|\b)|[A-Z]?[a-z]+[0-9]*|[A-Z]|[0-9]+/g)
+    .join("_")
+    .toLowerCase();

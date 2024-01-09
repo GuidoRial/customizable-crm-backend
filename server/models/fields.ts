@@ -37,12 +37,7 @@ const EntityFieldSchema = new mongoose.Schema(
       required: true,
     },
     options: {
-      type: [
-        {
-          label: String,
-          value: String,
-        },
-      ],
+      type: [String],
     },
   },
   { timestamps: true, strict: true },

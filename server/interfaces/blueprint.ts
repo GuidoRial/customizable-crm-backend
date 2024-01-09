@@ -8,7 +8,7 @@ export interface IBlueprint extends Document {
   user: string;
   metadata: {
     canBeReferenced: boolean;
-    map: IOption;
+    map: string;
   };
   fields: IField[];
 }

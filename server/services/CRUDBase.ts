@@ -22,13 +22,13 @@ class CRUDBase<T extends mongoose.Model<I>, I> {
 
   private serviceEvents = events[this.name];
 
-  private emitEvent(path: string) {
+  public emitEvent(path: string) {
     const event = _.get(this.serviceEvents, path);
     if (event) this.eventDispatcher.dispatch(event);
   }
 
   public create = {
-    one: async (object: Partial<I>) => {
+    one: async (object: Partial<I> | object) => {
       this.emitEvent("create.one");
       return this.model.create({ ...object });
     },
