@@ -1,13 +1,13 @@
-import { Router } from "express";
-import controllers from "../controllers";
-import Container from "typedi";
-import { CRUDGenerator } from "../../../utils";
+import { Router } from 'express';
+import controllers from '../controllers';
+import Container from 'typedi';
+import middlewares from '../middlewares';
 const route = Router();
 
 export default (app: Router) => {
-  app.use("/blueprints", route);
+  app.use('/blueprints', route);
 
   const controller = Container.get(controllers.blueprints);
 
-  CRUDGenerator(route, controller);
+  route.post('/', middlewares.isAuth, controller.create.bind(controller));
 };

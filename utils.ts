@@ -25,23 +25,10 @@ export const booleanParser = (obj: Record<string, any>) => {
 
 export const getIds = (ids: string) => ids.split(",") || [];
 
-export const CRUDGenerator = (route: Router, controller: any) => {
-  route.post("/", controller.create.bind(controller));
-
-  route.get("/", controller.read.bind(controller));
-
-  route.get("/:id", controller.read.bind(controller));
-
-  route.put("/:id", controller.update.bind(controller));
-
-  route.put("/", controller.update.bind(controller));
-
-  route.delete("/:id", controller.delete.bind(controller));
-
-  route.delete("/", controller.delete.bind(controller));
-};
-export const convert_to_snake_case = (str: string) =>
-  str
+export const convert_to_snake_case = (str: string) => {
+  if (typeof str !== "string" || str === "") return "";
+  return str
     .match(/[A-Z]{2,}(?=[A-Z][a-z]+[0-9]*|\b)|[A-Z]?[a-z]+[0-9]*|[A-Z]|[0-9]+/g)
     .join("_")
     .toLowerCase();
+};
