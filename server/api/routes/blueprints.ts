@@ -1,7 +1,6 @@
 import { Router } from "express";
 import controllers from "../controllers";
 import Container from "typedi";
-import { CRUDGenerator } from "../../../utils";
 const route = Router();
 
 export default (app: Router) => {
@@ -9,5 +8,5 @@ export default (app: Router) => {
 
   const controller = Container.get(controllers.blueprints);
 
-  CRUDGenerator(route, controller);
+  route.post("/", controller.create.bind(controller));
 };

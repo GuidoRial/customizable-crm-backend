@@ -8,6 +8,4 @@ export default (app: Router) => {
   app.use("/fields", route);
 
   const controller = Container.get(controllers.fields);
-
-  CRUDGenerator(route, controller);
 };
