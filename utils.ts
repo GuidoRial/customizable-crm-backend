@@ -32,3 +32,11 @@ export const convert_to_snake_case = (str: string) => {
     .join("_")
     .toLowerCase();
 };
+
+export const convert_to_normal_text = (str: string) => {
+  if (typeof str !== "string" || str === "") return "";
+  return str
+    .replace(/_([a-z])/g, (_, match) => match.toUpperCase()) // Convert snake_case to camelCase
+    .replace(/([A-Z])/g, " $1") // Add space before uppercase letters
+    .trim(); // Remove leading space if any
+};

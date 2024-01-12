@@ -44,7 +44,8 @@ class BaseController<
     try {
       const id = req.params.id;
       const query = booleanParser(req.query);
-      const populate = JSON.parse(req.query.populate as string);
+      const populate =
+        req.query?.populate && JSON.parse(req.query.populate as string);
 
       const promise = id
         ? this.service.read.one.byId(id)
