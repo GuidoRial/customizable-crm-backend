@@ -14,46 +14,40 @@ export default class BlueprintsService extends CRUDBase<
     super(Blueprint, "blueprints");
   }
 
-  override create = {
-    one: async ({
-      blueprint,
-      fields,
-    }: {
-      blueprint: IBlueprint;
-      fields: IField[];
-    }) => {
-      this.emitEvent("create.one");
-      const fieldService = Container.get(FieldService);
+  override async createOne({
+    blueprint,
+    fields,
+  }: {
+    blueprint: IBlueprint;
+    fields: IField[];
+  }) {
+    this.emitEvent("create.one");
+    const fieldService = Container.get(FieldService);
 
-      const { canBeReferenced, map } = blueprint.metadata;
+    const { canBeReferenced, map } = blueprint.metadata;
 
-      const createBlueprintDTO = {
-        ...blueprint,
-        metadata: { canBeReferenced, map: convert_to_snake_case(map) },
-      };
+    const createBlueprintDTO = {
+      ...blueprint,
+      metadata: { canBeReferenced, map: convert_to_snake_case(map) },
+    };
 
-      const createdBlueprint = await this.model.create(createBlueprintDTO);
+    const createdBlueprint = await this.model.create(createBlueprintDTO);
 
-      const fieldsDTO = fields.map((field) => ({
-        ...field,
-        blueprint: createdBlueprint._id,
-        key: convert_to_snake_case(field.label),
-      }));
-      const createdFields = await fieldService.create.many(fieldsDTO);
+    const fieldsDTO = fields.map((field) => ({
+      ...field,
+      blueprint: createdBlueprint._id,
+      key: convert_to_snake_case(field.label),
+    }));
+    const createdFields = await fieldService.createMany(fieldsDTO);
 
-      const update = {
-        fields: createdFields.map((field) => field._id) as unknown as IField[],
-      };
-      const updatedBlueprint = await this.update.one.byId(
-        createdBlueprint._id,
-        update,
-      );
+    const update = {
+      fields: createdFields.map((field) => field._id) as unknown as IField[],
+    };
+    const updatedBlueprint = await this.updateOneById(
+      createdBlueprint._id,
+      update,
+    );
 
-      return createdBlueprint;
-    },
-    many: async (objects: Partial<IBlueprint>[]) => {
-      this.emitEvent("create.many");
-      return this.model.insertMany(objects);
-    },
-  };
+    return createdBlueprint;
+  }
 }

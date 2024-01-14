@@ -27,7 +27,7 @@ export default class AuthService {
     );
   }
   async signIn({ identifier, password }: ILoginUserDTO) {
-    const user = await this.userService.read.one.by({
+    const user = await this.userService.getBy({
       $or: [{ email: identifier }, { username: identifier }],
     });
 
@@ -58,7 +58,7 @@ export default class AuthService {
       throw new Error("Error hashing account");
     }
 
-    const user = await this.userService.create.one({
+    const user = await this.userService.createOne({
       ...userDTO,
       password: hashedPassword,
     });

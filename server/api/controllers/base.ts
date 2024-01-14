@@ -13,10 +13,11 @@ class BaseController<
 > {
   constructor(public service: C) {}
 
+  // DONE - getFields
   public fields = async function (req: Request, res: Response): Promise<void> {
     const { field } = req.query;
     try {
-      const response = await this.service.read.field(field as string);
+      const response = await this.service.getFields(field as string);
 
       res.status(200).json(response);
     } catch (e) {
@@ -24,12 +25,13 @@ class BaseController<
     }
   };
 
+  // DONE - createOne, createMany
   public create = async function (req: Request, res: Response): Promise<void> {
     const { body } = req;
     try {
-      const target = Array.isArray(body) ? "many" : "one";
+      const target = Array.isArray(body) ? "createMany" : "createOne";
 
-      const response = await this.service.create[target](body);
+      const response = await this.service[target](body);
 
       res.status(200).json(response);
     } catch (e) {
@@ -37,6 +39,7 @@ class BaseController<
     }
   };
 
+  //DONE - getById, getMany
   public read = async function (
     req: Request,
     res: Response,
@@ -48,8 +51,8 @@ class BaseController<
         req.query?.populate && JSON.parse(req.query.populate as string);
 
       const promise = id
-        ? this.service.read.one.byId(id)
-        : this.service.read.many.by(query, populate);
+        ? this.service.getById({ id, populate })
+        : this.service.getMany({ query, populate });
 
       const response = await promise;
       return res.status(200).json(response);
@@ -58,13 +61,14 @@ class BaseController<
     }
   };
 
+  //DONE - updateOneById, updateManyById
   public update = async function (req: Request, res: Response): Promise<void> {
     const id = req.params.id;
     const ids = getIds(req.query.ids as string);
     const dto = req.body;
     const promise = id
-      ? this.service.update.one.byId(id, dto)
-      : this.service.update.many.byId(ids, dto);
+      ? this.service.updateOneById(id, dto)
+      : this.service.updateManyById(ids, dto);
 
     try {
       const response = await promise;
@@ -79,8 +83,8 @@ class BaseController<
     const id = req.params.id;
     const ids = getIds(req.query.ids as string);
     const promise = id
-      ? this.service.delete.one.byId(id)
-      : this.service.delete.many.byId(ids);
+      ? this.service.deleteOneById(id)
+      : this.service.deleteManyById(ids);
 
     try {
       const response = await promise;

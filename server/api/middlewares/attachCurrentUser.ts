@@ -7,7 +7,9 @@ import UserService from "../../services/users";
 const attachCurrentUser = async (req, res, next) => {
   try {
     const userService = Container.get(UserService);
-    const userRecord = await userService.read.one.byId(req.token._id);
+    const userRecord = (await userService.getById({
+      id: req.token._id,
+    })) as IUser;
     if (!userRecord) {
       return res.sendStatus(401);
     }

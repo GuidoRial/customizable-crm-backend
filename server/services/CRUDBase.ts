@@ -9,8 +9,6 @@ import _ from "lodash";
 
 type Populate = {
   path: string;
-  select?: string;
-  populate?: Populate;
 };
 @Service()
 class CRUDBase<T extends mongoose.Model<I>, I> {
@@ -27,110 +25,75 @@ class CRUDBase<T extends mongoose.Model<I>, I> {
     if (event) this.eventDispatcher.dispatch(event);
   }
 
-  public create = {
-    one: async (object: Partial<I> | object) => {
-      this.emitEvent("create.one");
-      return this.model.create({ ...object });
-    },
-    many: async (objects: Partial<I>[]) => {
-      this.emitEvent("create.many");
-      return this.model.insertMany(objects);
-    },
-  };
+  public async getBy(q: FilterQuery<I>) {
+    return this.model.findOne(q).lean();
+  }
 
-  public read = {
-    distinctValues: async (field: string) => {
-      this.emitEvent("read.distinctValues");
-      return this.model.distinct(field);
-    },
-    all: async () => {
-      this.emitEvent("read.all");
-      return this.model.find().lean();
-    },
-    field: async (field: string) => {
-      return this.model.find().select(field).lean();
-    },
-    one: {
-      by: async (q: Record<string, any> = {}) => {
-        this.emitEvent("read.one.by");
-        return this.model.findOne(q);
-      },
-      byId: async (id: string) => {
-        this.emitEvent("read.one.byId");
-        return this.model.findById(id).lean();
-      },
-    },
-    many: {
-      by: async (q: Record<string, any> = {}, populate: Populate[] = []) => {
-        this.emitEvent("read.many.by");
-        const items = await this.model.find(q).lean();
-        if (!populate.length) return items;
-        return this.model.populate(items, populate);
-      },
-      byId: async (ids: string[]) => {
-        this.emitEvent("read.many.byId");
-        return this.model.find({ _id: { $in: ids } }).lean();
-      },
-    },
-  };
+  public async getById({
+    id,
+    populate,
+  }: {
+    id: string;
+    populate?: Populate[];
+  }) {
+    this.emitEvent("read.one.byId");
+    const data = await this.model.findById(id).lean();
+    return this.populateFields(data as I, populate);
+  }
 
-  public update = {
-    one: {
-      by: async (q: FilterQuery<I> = {}, update: Partial<I>) => {
-        this.emitEvent("update.one.by");
-        return this.model.updateOne(q, { $set: { ...update } });
-      },
-      byId: async (id: string, update: Partial<I>) => {
-        this.emitEvent("update.one.byId");
-        return this.model.updateOne({ _id: id }, { $set: { ...update } });
-      },
-    },
-    many: {
-      by: async (q: FilterQuery<I> = {}, update: Partial<I>) => {
-        this.emitEvent("update.many.by");
-        return this.model.updateMany(q, { $set: { ...update } });
-      },
-      byId: async (ids: string[], update: Partial<I>) => {
-        this.emitEvent("update.many.byId");
-        return this.model.updateMany(
-          { _id: { $in: ids } },
-          { $set: { ...update } },
-        );
-      },
-    },
-  };
+  public async getMany({
+    q,
+    populate,
+  }: {
+    q: Record<string, any>;
+    populate?: Populate[];
+  }) {
+    this.emitEvent("read.many.by");
+    const items = await this.model.find(q).lean();
+    return this.populateFields(items as I[], populate);
+  }
 
-  public delete = {
-    one: {
-      by: async (q: FilterQuery<I> = {}) => {
-        this.emitEvent("delete.one.by");
-        return this.model.deleteOne(q);
-      },
-      byId: async (id: string) => {
-        this.emitEvent("delete.one.byId");
-        return this.model.deleteOne({ _id: id });
-      },
-    },
-    many: {
-      by: async (q: FilterQuery<I> = {}) => {
-        this.emitEvent("delete.many.by");
-        return this.model.deleteMany(q);
-      },
-      byId: async (ids: string[]) => {
-        this.emitEvent("delete.many.byId");
-        return this.model.deleteMany({ _id: { $in: ids } });
-      },
-    },
-  };
+  public async getFields(field: string) {
+    return this.model.find().select(field).lean();
+  }
 
-  public utils = {
-    populateFields: async (unpopulated: I | I[], populate: Populate[]) => {
-      return this.model.populate(unpopulated, populate);
-    },
-    count: async (filter: FilterQuery<I> = {}) => {
-      return this.model.countDocuments(filter);
-    },
-  };
+  public async createOne(object: Partial<I> | object) {
+    this.emitEvent("create.one");
+    return this.model.create({ ...object });
+  }
+
+  public async createMany(objects: Partial<I>[]) {
+    this.emitEvent("create.many");
+    return this.model.insertMany(objects);
+  }
+
+  public async updateOneById(id: string, update: Partial<I>) {
+    this.emitEvent("update.one.byId");
+    return this.model.updateOne({ _id: id }, { $set: { ...update } });
+  }
+
+  public async updateManyById(ids: string[], update: Partial<I>) {
+    this.emitEvent("update.many.byId");
+    return this.model.updateMany(
+      { _id: { $in: ids } },
+      { $set: { ...update } },
+    );
+  }
+
+  public async deleteOneById(id: string) {
+    this.emitEvent("delete.one.byId");
+    return this.model.deleteOne({ _id: id });
+  }
+
+  public async deleteManyById(ids: string[]) {
+    this.emitEvent("delete.many.byId");
+    return this.model.deleteMany({ _id: { $in: ids } });
+  }
+
+  public async populateFields(unpopulated: I | I[], populate: Populate[] = []) {
+    if (!populate.length) return unpopulated;
+    return this.model.populate(unpopulated, populate);
+  }
 }
 
 export default CRUDBase;

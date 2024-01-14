@@ -59,6 +59,7 @@
     "mongoose": "^6.6.7",
     "node-cache": "^5.1.2",
     "reflect-metadata": "^0.1.13",
+    "schemy-ts": "^1.6.1",
     "ts-node-dev": "^2.0.0",
     "typedi": "^0.10.0",
     "winston": "^3.9.0"

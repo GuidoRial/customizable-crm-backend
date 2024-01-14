@@ -16,4 +16,6 @@ export default (app: Router) => {
     middlewares.attachCurrentUser,
     controller.read.bind(controller),
   );
+
+  route.get("/:id", middlewares.isAuth, controller.read.bind(controller));
 };
