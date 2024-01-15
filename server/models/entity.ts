@@ -7,8 +7,12 @@ const EntitySchema = new mongoose.Schema(
       ref: "Blueprint",
       required: true,
     },
+    user: {
+      type: mongoose.Types.ObjectId,
+      ref: "User",
+    },
   },
-  { timestamps: true, strict: true },
+  { timestamps: true, strict: false },
 );
 
 export default mongoose.model<IEntity & mongoose.Document>(
